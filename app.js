@@ -61,10 +61,11 @@ app.post('/auth', async (req, res) => {
 
 
 });
-
+//get
 app.get('/tareas',(req,res)=>{
     res.sendFile(path.join(__dirname , 'public', 'main-page', 'main-page.html'))
 })
+//post
 app.post('/tareas',(req,res)=>{
     const {token}=req.body
 
