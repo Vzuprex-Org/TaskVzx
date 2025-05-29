@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VZX</title>
+</head>
+<body>
+    <h1 id="text"></h1>
+</body>
+<script>
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        const tokenPass= localStorage.getItem('tokenPass')
+        if(!tokenPass){
+            
+                    document.location.href='./no-found-404.html'
+                
+        }
+        fetch('/tareas',{
+                method:'POST',
+                headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({token:tokenPass})
+            })
+            .then(res=>res.json())
+            .then(date=>{
+                if(date.token==='Validated'){
+                    const texto=document.getElementById('text')
+                    texto.textContent='Registrado use la web tareas';
+                }
+            })
+    })
+
+</script>
+</html>

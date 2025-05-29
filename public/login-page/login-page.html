@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" href="./login-page.css">
+    <title>TaskVzx</title>
+</head>
+<body>
+    <h1 id="dates-error" style="display: none;"></h1>
+    <main id="main">
+        <!-- login -->
+        <form id="form-1">
+            <span>LOGIN</span>
+            
+                <label for="Usuario">Usuario</label>
+                <input type="text" minlength="3" maxlength="100" required id="Usuario" name="Usuario">
+                <label for="contraseña">Contraseña</label>
+                <input type="text" minlength="3" maxlength="100" required id="contraseña" name="Contraseña">
+            
+            <button type="submit" class="buttons" id="button_login">Iniciar Sesion</button>
+            <button id="register" type="button">REGISTRARME</button>
+            <!-- <button type="button"onclick="page_register()" class="buttons" id="button_register">Registrarme</button> -->
+        </form>
+        <!-- Register -->
+        <form id="form-2">
+            <span>¡Biemvenido!</span>
+            <span><u>Rellena tus datos personales, para complear el registro.</u></span>
+            
+                <label for="nombre_re">Username</label>
+                <input type="nombre_re" minlength="3" maxlength="100" required id="nombre_re" name="nombre_re">
+
+                <label for="email">Gmail</label>
+                <input type="email" minlength="3" maxlength="100" required id="email" name="email">
+                
+                <label for="contraseña_re">Contraseña</label>
+                <input type="text" minlength="3" maxlength="100" required id="contraseña_re" name="contraseña_re">
+            
+            <button type="submit" class="buttons" id="button_registrarme">Registrarme</button>
+            <button type="button" id="login">SALIR</button>
+            <!-- <button type="button"onclick="page_register()" class="buttons" id="button_register">Registrarme</button> -->
+        </form>
+        
+    </main>
+
+    <script>
+        //main
+        const main=document.getElementById('main')
+        //forms
+        const form_login=document.getElementById('form-1')
+        const form_reg=document.getElementById('form-2')
+        //buttons
+        const button_register=document.getElementById('register')
+        const button_login=document.getElementById('login')
+        //funcion pasar de layout
+        
+            
+        button_register.addEventListener('click',()=>{
+                main.style.opacity='0%';
+                main.style.transition='1s';
+                setTimeout(()=>{
+                    form_login.style.display='none'
+                    form_reg.style.display='flex';
+                    main.style.opacity='100%'
+                },1000)
+        })
+        button_login.addEventListener('click',()=>{
+                main.style.opacity='0%';
+                main.style.transition='1s';
+                setTimeout(()=>{
+                    form_reg.style.display='none';
+                    form_login.style.display='flex'
+                    main.style.opacity='100%'
+                },1000)
+        })
+
+        form_login.addEventListener('submit',(f)=>{
+
+            f.preventDefault();
+            fetch('/auth',{
+                method:"POST",
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({
+                    username:form_login.Usuario.value,
+                    password:form_login.contraseña.value
+                })
+            })
+            .then(date => date.json())
+            .then((datos)=>{
+                if(datos.autenticado==='no'){
+                    const notiError=document.getElementById('dates-error')
+                    notiError.textContent='Datos incorrectos'
+                    notiError.style.display='block'
+                    form_login.Usuario.value=''
+                    form_login.Contraseña.value=''
+                }
+                if(datos.autenticado==='si'){
+                    localStorage.setItem('tokenPass',datos.token)
+                    document.location.href='/tareas';
+                }
+            })
+           
+        })
+
+        
+
+    </script>
+</body>
+</html>
