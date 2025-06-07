@@ -14,10 +14,10 @@
         const tokenPass= localStorage.getItem('tokenPass')
         if(!tokenPass){
             
-                    document.location.href='./no-found-404.html'
+            return document.location.href='./no-found-404.html'
                 
         }
-        fetch('/tareas',{
+        fetch('/panel',{
                 method:'POST',
                 headers:{
                 'Content-Type':'application/json'
@@ -28,7 +28,7 @@
             .then(date=>{
                 if(date.token==='Validated'){
                     const texto=document.getElementById('text')
-                    texto.textContent='Registrado use la web tareas';
+                    texto.textContent=`¡Hola ${date.user} Biemvenido!`;
                 }
             })
     })

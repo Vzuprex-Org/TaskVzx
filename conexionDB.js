@@ -27,14 +27,18 @@ async function conectarDB() {
 }
 
 async function consultarDB(query,dates) {
-    const [resQuery]=await conexion.execute(query,[dates[0],dates[1]]);
-    const datos=resQuery[0];
-    console.log('(*) Consulta a la DB fue realizada.');
-    return datos
+    const [resQuery]=await conexion.execute(query,dates);
+    console.log('(*) Consulta a la DB fue realizada. \n--------------------------------------------------------------------\n consulta:',[query],'\n--------------------------------------------------------------------');
+    return resQuery
+}
+async function ingresarDatosDB(query,dates) {
+    const [resQuery]=await conexion.execute(query,dates);
+    console.log('(*) Datos ingresados a la DB fue realizada.');
+    return resQuery
 }
 
 
-module.exports={conectarDB,consultarDB}
+module.exports={conectarDB,consultarDB,ingresarDatosDB}
 
 
 
